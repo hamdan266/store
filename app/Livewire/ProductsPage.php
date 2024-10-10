@@ -28,6 +28,9 @@ class ProductsPage extends Component
     #[URL]
     public $on_sale;
 
+    #[URL]
+    public $price_range = 100000000;
+
     public function render()
     {
         $productQuery = Product::query()->where('is_active', 1);
@@ -48,6 +51,10 @@ class ProductsPage extends Component
 
         if($this->on_sale){
             $productQuery->where('on_sale', 1);
+        }
+
+        if($this->price_range){
+            $productQuery->whereBetween('price', [0, $this->price_range]);
         }
 
         return view('livewire.products-page', [
