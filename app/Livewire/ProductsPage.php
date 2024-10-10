@@ -16,8 +16,11 @@ class ProductsPage extends Component
 {
     use WithPagination;
 
-    #[Url()]
+    #[Url]
     public $selected_categories = [];
+
+    #[Url]
+    public $selected_brands = [];
 
     public function render()
     {
@@ -28,6 +31,9 @@ class ProductsPage extends Component
             $productQuery->whereIn('category_id', $this->selected_categories);
         }
 
+        if(!empty($this->selected_brands)){
+            $productQuery->whereIn('brand_id', $this->selected_brands);
+        }
 
         return view('livewire.products-page', [
             'products' => $productQuery->paginate(9),
